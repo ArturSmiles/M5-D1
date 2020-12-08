@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
 })
 
 
-router.get("/:identifier", (req, res) => {
+router.get("/:id", (req, res) => {
 
 
   const studentsFilePath = path.join(__dirname, "students.json")
@@ -25,13 +25,25 @@ router.get("/:identifier", (req, res) => {
   const stringFile = bufferFile.toString()
   const studentsArray = JSON.parse(stringFile)
 
-  const idComingFromRequest = req.params.identifier
+  const idComingFromRequest = req.params.id
 
   const user = studentsArray.filter(user => user.ID === idComingFromRequest)
+  let verify = null
 
-  res.send(user)
+    for(let i=0;i<studentsArray.length;i++){
+        if(studentsArray[i].ID === req.params.id){
+            verify = true
+        }
+    }
+
+    if(verify === true){
+        res.send(user)
+    }else{
+
+        throw new Error("ID INVALID")
+    }
+
 })
-
 
 router.post("/", (req, res) => {
 
@@ -69,6 +81,11 @@ router.put("/:id", (req, res) => {
 
   const newstudentsArray = studentsArray.filter(user => user.ID !== req.params.id)
 
+  for(let i = 0; i<studentsArray.length; i++){
+    if(studentsArray[i].email === req.body.email){
+        throw new Error("Email already used")
+    }
+}
 
   const modifiedUser = req.body
   modifiedUser.ID = req.params.id

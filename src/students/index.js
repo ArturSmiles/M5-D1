@@ -1,9 +1,9 @@
 
-const express = require("express") // third party module
-const fs = require("fs") // core module
-const path = require("path") // core module
+const express = require("express")
+const fs = require("fs")
+const path = require("path")
 const { nextTick } = require("process")
-const uniqid = require("uniqid") // third party module
+const uniqid = require("uniqid")
 
 const router = express.Router()
 
